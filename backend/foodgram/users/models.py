@@ -14,14 +14,16 @@ class User(AbstractUser):
     )
 
     email = models.EmailField(
+        max_length=254,
         unique=True,
         blank=False,
         verbose_name='email'
     )
     password = models.CharField(
-        max_length=200,
+        max_length=150,
         default='password',
         verbose_name='Пароль',
+        blank=False
     )
     bio = models.TextField(
         blank=True,
@@ -40,7 +42,7 @@ class User(AbstractUser):
         default=USER,
         verbose_name='Роль'
     )
-    username_validator = RegexValidator(r'^[\w.@+-]+')
+    username_validator = RegexValidator(r'^[\w.@+-]+\z')
     username = models.CharField(
         max_length=150,
         unique=True,
@@ -48,8 +50,8 @@ class User(AbstractUser):
     )
 
     is_staff = models.BooleanField(default=False)
-    first_name = models.CharField(max_length=150, blank=True)
-    last_name = models.CharField(max_length=150, blank=True)
+    first_name = models.CharField(max_length=150, blank=False,)
+    last_name = models.CharField(max_length=150, blank=False)
 
     @property
     def is_admin(self):
