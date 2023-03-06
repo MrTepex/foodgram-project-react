@@ -1,6 +1,5 @@
 from django.core.validators import MinValueValidator
 from django.db import models
-from django.utils.html import format_html
 from users.models import User
 
 
@@ -19,12 +18,6 @@ class Tag(models.Model):
         ordering = ('name',)
         verbose_name = 'Тэг'
         verbose_name_plural = 'Тэги'
-
-    # def colored_name(self):
-    #     return format_html(
-    #         '<span style="color: #{};">{}</span>',
-    #         self.color,
-    #     )
 
     def __str__(self):
         return self.name
@@ -90,8 +83,9 @@ class Recipe(models.Model):
                             unique=True,
                             blank=False,
                             verbose_name='Название рецепта')
-    image = models.URLField(blank=False,
-                            verbose_name='Фото рецепта')
+    image = models.ImageField(blank=False,
+                              upload_to='recipes/',
+                              verbose_name='Фото рецепта')
     text = models.TextField(blank=False,
                             verbose_name='Описание рецепта')
     cooking_time = models.PositiveIntegerField(
