@@ -42,7 +42,7 @@ class User(AbstractUser):
         default=USER,
         verbose_name='Роль'
     )
-    username_validator = RegexValidator(r'^[\w.@+-]+\z')
+    username_validator = RegexValidator(r'^[\w.@+-]+')
     username = models.CharField(
         max_length=150,
         unique=True,
