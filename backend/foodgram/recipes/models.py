@@ -145,7 +145,7 @@ class RecipeIngredient(models.Model):
                 f'{self.ingredient.measurement_unit}')
 
 
-class Favorite(models.Model):
+class FavoriteRecipe(models.Model):
     user = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
@@ -193,7 +193,7 @@ class ShoppingCart(models.Model):
         constraints = [
             models.UniqueConstraint(
                 fields=('user', 'recipe'),
-                name='unique_favorite'
+                name='unique_shopping_cart_recipe'
             ),
         ]
 
