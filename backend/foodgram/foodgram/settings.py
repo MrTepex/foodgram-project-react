@@ -1,26 +1,20 @@
 import os
 from datetime import timedelta
 
-
-# Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-
-SECRET_KEY = '^74tj%h0ct_)5=5ke8#f5y@bnd=)fz&9x$iei-ov73_6ab-&fe'
+SECRET_KEY = str(os.getenv('SECRET_KEY'))
 
 DEBUG = True
 
 ALLOWED_HOSTS = [
     '127.0.0.1',
-    '84.201.153.21'
+    'localhost',
+    '84.201.153.21',
+    'db'
 ]
 
-
-
 INSTALLED_APPS = [
-    'api',
-    'recipes',
-    'users',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -31,6 +25,9 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'rest_framework_simplejwt',
     'django_filters',
+    'api',
+    'recipes',
+    'users',
 ]
 
 MIDDLEWARE = [
@@ -64,10 +61,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'foodgram.wsgi.application'
 
-
-# Database
-# https://docs.djangoproject.com/en/2.2/ref/settings/#databases
-
 DATABASES = {
     'default': {
         'ENGINE': os.getenv('DB_ENGINE',
@@ -97,7 +90,7 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'ru'
 
 TIME_ZONE = 'UTC'
 
@@ -107,11 +100,7 @@ USE_L10N = True
 
 USE_TZ = True
 
-
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/2.2/howto/static-files/
 STATIC_URL = '/static/'
-
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 MEDIA_URL = '/media/'
@@ -119,13 +108,16 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 
 REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.AllowAny',
+    ],
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ],
-
     'DEFAULT_PAGINATION_CLASS':
         'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE': 6,
+    'SEARCH_PARAM': 'name',
 }
 
 SIMPLE_JWT = {
@@ -136,5 +128,4 @@ SIMPLE_JWT = {
 EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
 EMAIL_FILE_PATH = os.path.join(BASE_DIR, 'sent_emails')
 AUTH_USER_MODEL = 'users.User'
-
 ADDR_SENT_EMAIL = 'test@test.com'

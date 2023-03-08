@@ -42,21 +42,19 @@ class User(AbstractUser):
         default=USER,
         verbose_name='Роль'
     )
-    username_validator = RegexValidator(r'^[\w.@+-]+')
     username = models.CharField(
         max_length=150,
         unique=True,
-        validators=[username_validator]
+        validators=[RegexValidator(r'^[\w.@+-]+'), ]
     )
-
+    is_subscribed = models.BooleanField(default=False)
     is_staff = models.BooleanField(default=False)
-    first_name = models.CharField(max_length=150, blank=False,)
+    first_name = models.CharField(max_length=150, blank=False)
     last_name = models.CharField(max_length=150, blank=False)
 
     @property
     def is_admin(self):
         return self.role == self.ADMIN
-
 
     @property
     def is_user(self):
@@ -71,3 +69,31 @@ class User(AbstractUser):
         ]
         verbose_name = 'Пользователь'
         verbose_name_plural = 'Пользователи'
+
+
+class Follow(models.Model):
+    user = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name='follower',
+        verbose_name='Подписчик'
+    )
+    author = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name='following',
+        verbose_name='Подписан'
+    )
+
+    def __str__(self):
+        return f'{self.user.username} подписан на {self.author.username}'
+
+    class Meta:
+        verbose_name = 'Подписка на авторов'
+        verbose_name_plural = 'Подписки на авторов'
+        constraints = [
+            models.UniqueConstraint(
+                fields=['user', 'author'],
+                name='unique_subscribe'
+            )
+        ]
