@@ -49,8 +49,8 @@ class User(AbstractUser):
     )
     is_subscribed = models.BooleanField(default=False)
     is_staff = models.BooleanField(default=False)
-    first_name = models.CharField(max_length=150, blank=False)
-    last_name = models.CharField(max_length=150, blank=False)
+    first_name = models.CharField(max_length=150, blank=True)
+    last_name = models.CharField(max_length=150, blank=True)
 
     @property
     def is_admin(self):
