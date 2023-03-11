@@ -1,4 +1,4 @@
-from  django_filters.rest_framework import FilterSet, filters
+from django_filters.rest_framework import FilterSet, filters
 from recipes.models import Recipe, Tag
 
 
@@ -30,4 +30,3 @@ class RecipeFilter(FilterSet):
         if value and user.is_authenticated:
             return queryset.filter(recipe_in_cart__user=user)
         return queryset
-

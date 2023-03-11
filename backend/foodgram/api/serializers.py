@@ -107,11 +107,9 @@ class FollowSerializer(serializers.ModelSerializer):
                   'is_subscribed', 'recipes', 'recipes_count')
 
     def get_is_subscribed(self, obj):
-        return (
-                self.context.get('request').user.is_authenticated
+        return (self.context.get('request').user.is_authenticated
                 and Follow.objects.filter(user=self.context['request'].user,
-                                          author=obj).exists()
-        )
+                                          author=obj).exists())
 
     @staticmethod
     def get_recipes(obj):
@@ -146,11 +144,9 @@ class FollowAuthorSerializer(serializers.ModelSerializer):
         return obj
 
     def get_is_subscribed(self, obj):
-        return (
-                self.context.get('request').user.is_authenticated
+        return (self.context.get('request').user.is_authenticated
                 and Follow.objects.filter(user=self.context['request'].user,
-                                          author=obj).exists()
-        )
+                                          author=obj).exists())
 
     @staticmethod
     def get_recipes_count(obj):
@@ -170,7 +166,7 @@ class IngredientSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Ingredient
-        fields = ('id', 'name', 'measurement_unit', 'amount')
+        fields = ('id', 'name', 'measurement_unit')
 
 
 class RecipeIngredientSerializer(serializers.ModelSerializer):

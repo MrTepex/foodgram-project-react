@@ -22,11 +22,11 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         if sys.platform.lower().startswith('win'):
-            path = os.path.join(PROJECT_DIR, 'data\ingredients.csv')
+            path = os.path.join(PROJECT_DIR, r'data\ingredients.csv')
         else:
-            path = os.path.join(PROJECT_DIR, 'data/ingredients.csv')
+            path = os.path.join(PROJECT_DIR, r'data/ingredients.csv')
         with open(path, 'r', encoding='utf-8') as file:
             reader = csv.reader(file)
             for ingredient in reader:
                 create_ingredient(ingredient)
-        self.stdout.write('Database is filled!')
+        self.stdout.write('Database is filled with ingredients!')
