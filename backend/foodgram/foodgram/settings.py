@@ -11,7 +11,8 @@ ALLOWED_HOSTS = [
     'localhost',
     'backend',
     '84.201.153.21',
-    'db'
+    'db',
+    'tepex.myftp.org'
 ]
 
 INSTALLED_APPS = [
