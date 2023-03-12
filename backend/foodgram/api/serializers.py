@@ -239,12 +239,8 @@ class RecipeCreateSerializer(serializers.ModelSerializer):
                   'text', 'cooking_time')
 
     def validate(self, value):
-        if self.context.get('request').method == 'POST':
-            required_fields = ('ingredients', 'tags', 'image', 'name',
-                               'text', 'cooking_time')
-        else:
-            required_fields = ('ingredients', 'tags', 'name',
-                               'text', 'cooking_time')
+        required_fields = ('ingredients', 'tags', 'image', 'name',
+                           'text', 'cooking_time')
         for field in required_fields:
             if not value.get(field):
                 raise serializers.ValidationError(
