@@ -47,9 +47,9 @@ jobs:
             echo POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }} >> .env
             echo DB_HOST=${{ secrets.DB_HOST }} >> .env
             echo DB_PORT=${{ secrets.DB_PORT }} >> .env
-            cd foodgram/
+            cd backend/foodgram/
             python manage.py fill_base_with_ingredients
-            cd ..
+            cd ../..
             sudo docker-compose up -d --build
   send_message:
     runs-on: ubuntu-latest
