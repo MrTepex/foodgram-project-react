@@ -41,6 +41,7 @@ services:
     depends_on:
       - frontend
 
+
 volumes:
   db_value:
   static_value:
