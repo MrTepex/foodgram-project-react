@@ -60,7 +60,7 @@ class Recipe(models.Model):
     tags = models.ManyToManyField(
         Tag,
         verbose_name='Теги',
-        blank=False
+        blank=True
     )
     author = models.ForeignKey(
         User,

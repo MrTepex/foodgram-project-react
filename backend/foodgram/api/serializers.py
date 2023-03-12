@@ -231,15 +231,20 @@ class RecipeCreateSerializer(serializers.ModelSerializer):
     )
     author = UserGetSerializer(read_only=True)
     image = Base64ImageField()
-    ingredients = RecipeIngredientSerializer(many=True)
+    ingredients = RecipeIngredientCreateSerializer(many=True)
 
     class Meta:
         model = Recipe
-        fields = ('ingredients', 'tags', 'image', 'name', 'text',
-                  'cooking_time')
+        fields = ('id', 'author', 'ingredients', 'tags', 'image', 'name',
+                  'text', 'cooking_time')
 
     def validate(self, value):
-        required_fields = RecipeCreateSerializer.Meta.fields
+        if self.context.get('request').method == 'POST':
+            required_fields = ('ingredients', 'tags', 'image', 'name',
+                               'text', 'cooking_time')
+        else:
+            required_fields = ('ingredients', 'tags', 'name',
+                               'text', 'cooking_time')
         for field in required_fields:
             if not value.get(field):
                 raise serializers.ValidationError(
@@ -251,6 +256,7 @@ class RecipeCreateSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError(
                 'Ингредиенты не могут повторяться'
             )
+        return value
 
     @staticmethod
     def tags_set(recipe, tags):
@@ -258,20 +264,21 @@ class RecipeCreateSerializer(serializers.ModelSerializer):
 
     @staticmethod
     def ingredients_set(recipe, ingredients):
-        for ingredient in ingredients:
-            RecipeIngredient.objects.bulk_create(RecipeIngredient(
+        RecipeIngredient.objects.bulk_create(
+            [RecipeIngredient(
                 recipe=recipe,
-                ingredient=Ingredient.objects.get(pk=ingredient.get('id')),
-                amount=ingredient.get('amount'))
-            )
+                ingredient=Ingredient.objects.get(pk=ingredient['id']),
+                amount=ingredient['amount']
+            ) for ingredient in ingredients]
+        )
 
     def create(self, validated_data):
+        tags = validated_data.pop('tags')
+        ingredients = validated_data.pop('ingredients')
         recipe = Recipe.objects.create(
             author=self.context.get('request').user,
             **validated_data
         )
-        tags = validated_data.pop('tags')
-        ingredients = validated_data.pop('ingredients')
         self.tags_set(recipe, tags)
         self.ingredients_set(recipe, ingredients)
         return recipe

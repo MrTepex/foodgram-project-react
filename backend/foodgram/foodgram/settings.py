@@ -9,6 +9,7 @@ DEBUG = True
 ALLOWED_HOSTS = [
     '127.0.0.1',
     'localhost',
+    'backend',
     '84.201.153.21',
     'db'
 ]
@@ -22,11 +23,11 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'rest_framework.authtoken',
-    'rest_framework_simplejwt',
     'django_filters',
     'api',
     'recipes',
     'users',
+    'djoser'
 ]
 
 MIDDLEWARE = [
@@ -64,11 +65,11 @@ DATABASES = {
     'default': {
         'ENGINE': os.getenv('DB_ENGINE',
                             default='django.db.backends.postgresql'),
-        'NAME': os.getenv('DB_NAME', default='foodgram'),
-        'USER': os.getenv('POSTGRES_USER', default='postgres'),
-        'PASSWORD': os.getenv('POSTGRES_PASSWORD', default='postgres'),
-        'HOST': os.getenv('DB_HOST', default='localhost'),
-        'PORT': os.getenv('DB_PORT', default='5432')
+        'NAME': os.getenv('DB_NAME'),
+        'USER': os.getenv('POSTGRES_USER'),
+        'PASSWORD': os.getenv('POSTGRES_PASSWORD'),
+        'HOST': os.getenv('DB_HOST'),
+        'PORT': os.getenv('DB_PORT')
     }
 }
 
@@ -88,11 +89,11 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-# DJOSER = {
-#     'LOGIN_FIELD': 'email',
-# }
+DJOSER = {
+    'LOGIN_FIELD': 'email',
+}
 
-# AUTH_USER_MODEL = 'users.User'
+AUTH_USER_MODEL = 'users.User'
 
 LANGUAGE_CODE = 'ru'
 
@@ -125,8 +126,3 @@ REST_FRAMEWORK = {
         'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE': 6,
 }
-
-EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
-EMAIL_FILE_PATH = os.path.join(BASE_DIR, 'sent_emails')
-AUTH_USER_MODEL = 'users.User'
-ADDR_SENT_EMAIL = 'test@test.com'

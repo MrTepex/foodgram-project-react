@@ -1,13 +1,9 @@
 import csv
 import os
-from os.path import dirname
-import sys
 
 from django.core.management.base import BaseCommand
 from foodgram.settings import BASE_DIR
 from recipes.models import Ingredient
-
-PROJECT_DIR = dirname(dirname(BASE_DIR))
 
 
 def create_ingredient(income):
@@ -18,13 +14,8 @@ def create_ingredient(income):
 
 class Command(BaseCommand):
     """Reading the .csv file and filling the database"""
-    help = 'Load ingredients to database'
-
     def handle(self, *args, **options):
-        if sys.platform.lower().startswith('win'):
-            path = os.path.join(PROJECT_DIR, r'data\ingredients.csv')
-        else:
-            path = os.path.join(PROJECT_DIR, r'data/ingredients.csv')
+        path = os.path.join(BASE_DIR, 'ingredients.csv')
         with open(path, 'r', encoding='utf-8') as file:
             reader = csv.reader(file)
             for ingredient in reader:
