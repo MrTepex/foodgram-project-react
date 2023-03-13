@@ -13,7 +13,7 @@ from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from users.models import Follow, User
 
-from .filters import RecipeFilter
+from .filters import IngredientFilter, RecipeFilter
 from .permissions import IsAuthorOrReadOnly
 from .serializers import (CustomUserCreateSerializer, FollowAuthorSerializer,
                           FollowSerializer, IngredientSerializer,
@@ -98,8 +98,7 @@ class IngredientViewSet(mixins.ListModelMixin,
     serializer_class = IngredientSerializer
     permission_classes = (AllowAny,)
     pagination_class = None
-    filter_backends = (filters.SearchFilter, DjangoFilterBackend)
-    search_fields = ('^name',)
+    filterset_class = IngredientFilter
 
 
 class RecipeViewSet(viewsets.ModelViewSet):
