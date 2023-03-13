@@ -40,9 +40,9 @@ password: admin
 # Документация
 
 Для просмотра документации к API перейдите по адресу:
-- на сайте:  http://tepex.myftp.org/api/redoc
+- на сайте:  http://tepex.myftp.org/api/docs/redoc.html
 
-- локально: http://localhost/api/redoc
+- локально: http://localhost/api/docs/redoc.html
 
 # Локальная установка
 
