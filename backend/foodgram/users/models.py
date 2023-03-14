@@ -63,7 +63,7 @@ class User(AbstractUser):
     class Meta:
         constraints = [
             models.UniqueConstraint(
-                fields=['username', 'email'],
+                fields=('username', 'email'),
                 name='unique_username_email'
             )
         ]
@@ -88,15 +88,15 @@ class Follow(models.Model):
         verbose_name='Подписан'
     )
 
-    def __str__(self):
-        return f'{self.user.username} подписан на {self.author.username}'
-
     class Meta:
         verbose_name = 'Подписка на авторов'
         verbose_name_plural = 'Подписки на авторов'
         constraints = [
             models.UniqueConstraint(
-                fields=['user', 'author'],
+                fields=('user', 'author'),
                 name='unique_subscribe'
             )
         ]
+
+    def __str__(self):
+        return f'{self.user.username} подписан на {self.author.username}'
