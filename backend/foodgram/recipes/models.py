@@ -32,7 +32,7 @@ class Tag(models.Model):
         verbose_name_plural = 'Теги'
 
     def __str__(self):
-        return self.name
+        return f'{self.name}, {self.color}'
 
 
 class Ingredient(models.Model):
@@ -144,6 +144,7 @@ class RecipeIngredient(models.Model):
 
 
 class FavoriteRecipe(models.Model):
+    """Model for favorited recipes"""
     user = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
@@ -172,6 +173,7 @@ class FavoriteRecipe(models.Model):
 
 
 class ShoppingCart(models.Model):
+    """Model for a shopping cart"""
     user = models.ForeignKey(
         User,
         on_delete=models.CASCADE,

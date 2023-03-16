@@ -8,14 +8,18 @@ from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 
 from api.serializers import FollowAuthorSerializer, FollowSerializer
-from api.views import ListRetrieveModelMixin
 from .models import Follow, User
 from .serializers import (CustomUserCreateSerializer, SetPasswordSerializer,
                           UserGetSerializer)
 
 
-class UserViewSet(mixins.CreateModelMixin,
-                  ListRetrieveModelMixin,
+class ListRetrieveCreateModelMixin(mixins.CreateModelMixin,
+                                   mixins.ListModelMixin,
+                                   mixins.RetrieveModelMixin):
+    pass
+
+
+class UserViewSet(ListRetrieveCreateModelMixin,
                   viewsets.GenericViewSet):
     queryset = User.objects.all()
     permission_classes = (AllowAny,)

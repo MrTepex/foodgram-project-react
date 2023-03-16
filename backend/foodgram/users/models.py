@@ -4,7 +4,7 @@ from django.db import models
 
 
 class User(AbstractUser):
-
+    """User model based on AbstractUser"""
     USER = 'user'
     ADMIN = 'admin'
 
@@ -75,6 +75,7 @@ class User(AbstractUser):
 
 
 class Follow(models.Model):
+    """Author subscription model"""
     user = models.ForeignKey(
         User,
         on_delete=models.CASCADE,

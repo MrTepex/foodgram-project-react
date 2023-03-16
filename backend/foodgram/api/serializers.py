@@ -27,8 +27,16 @@ class FollowSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ('email', 'id', 'username', 'first_name', 'last_name',
-                  'is_subscribed', 'recipes', 'recipes_count')
+        fields = (
+            'email',
+            'id',
+            'username',
+            'first_name',
+            'last_name',
+            'is_subscribed',
+            'recipes',
+            'recipes_count'
+        )
 
     def get_is_subscribed(self, obj):
         return (self.context.get('request').user.is_authenticated
@@ -56,10 +64,16 @@ class FollowAuthorSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ('email', 'id',
-                  'username', 'first_name',
-                  'last_name', 'is_subscribed',
-                  'recipes', 'recipes_count')
+        fields = (
+            'email',
+            'id',
+            'username',
+            'first_name',
+            'last_name',
+            'is_subscribed',
+            'recipes',
+            'recipes_count'
+        )
 
     def validate(self, obj):
         if self.context['request'].user == obj:
@@ -67,10 +81,9 @@ class FollowAuthorSerializer(serializers.ModelSerializer):
                 {'errors': 'Нельзя подписаться на себя.'})
         return obj
 
-    def get_is_subscribed(self, obj):
-        return (self.context.get('request').user.is_authenticated
-                and Follow.objects.filter(user=self.context['request'].user,
-                                          author=obj).exists())
+    @staticmethod
+    def get_is_subscribed(obj):
+        return FollowSerializer.get_is_subscribed(FollowSerializer(), obj)
 
     @staticmethod
     def get_recipes_count(obj):
